@@ -46,18 +46,28 @@ namespace Game.player
         {
             return _Model.health;
         }
+        public int GetMaxHealth()
+        {
+            return _Model.Maxhealth;
+        }
         public int GetSpeed()
         {
             return _Model.speed;
         }
 
-        internal void Heal()
+        public void Heal()
         {
+            
             int health=GetHealth();
             if( health< _Model.Maxhealth)
             {
                 health+=_Model.HealValue;
+                
+            }if(health> _Model.Maxhealth)
+            {
+                health=_Model.Maxhealth;
             }
+            _Model.SetHealth(health);
         }
     }
 }

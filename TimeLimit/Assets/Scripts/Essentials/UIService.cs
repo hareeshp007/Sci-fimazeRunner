@@ -2,8 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Xml.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Debug = UnityEngine.Debug;
 
@@ -11,69 +13,22 @@ namespace Game.UI
 {
     public class UIService : MonoSingletonGeneric<UIService>
     {
-        public Image HealthImage;
-        public TextMeshProUGUI HealthText;
-
-        [SerializeField]
-        private float health;
-        [SerializeField]
-        private float maxHealth =100;
-        [SerializeField]
-        private float lerpSpeed;
+        
 
 
         private void Start()
         {
-            health = maxHealth;
+            
         }
         private void Update()
         {
 
-            lerpSpeed = 3f * Time.deltaTime;
+            
         }
 
         
 
-        public void Heal( int HealValue)
-        {
-            if (HealValue < maxHealth) health += HealValue;
-            else health = maxHealth;
-            health += HealValue;
-            HealthUpdateGui();
-        }
-
-        public void DamageHealth(int Damage)
-        {
-            if(health>0) health-=Damage;
-            else health = 0;
-            HealthUpdateGui();
-        }
-
-
-        public void HealthSet(int Health)
-        {
-            health = Health;
-            HealthUpdateGui();
-        }
-        private void HealthBarFiller()
-        {
-            HealthImage.fillAmount = (health / maxHealth);
-            ColorChange();
-            
-        }
-        private void ColorChange()
-        {
-            Color healthColor = Color.Lerp(Color.red, Color.blue, (health / maxHealth));
-            HealthImage.color = healthColor;
-        }
-        public void HealthUpdateGui()
-        {
-            if (health > maxHealth) health = maxHealth;
-            if (health < 0) health = 0;
-            HealthText.text =  health + "%";
-            
-            HealthBarFiller();
-        }
+        
 
         internal  void GameWon()
         {
@@ -84,6 +39,7 @@ namespace Game.UI
         {
             Debug.Log("Game Over");
         }
+        
     }
 }
 

@@ -11,6 +11,7 @@ namespace Game.player
     {
         public Transform GroundCheck;
         public LayerMask GroundMask;
+        public UiManger uiManager;
 
         private PlayerController playerController;
         [SerializeField]
@@ -66,8 +67,10 @@ namespace Game.player
         {
            characterController = GetComponent<CharacterController>();
            playerAudioSource = GetComponent<AudioSource>();
-            SoundManager.Instance.SetPlayerSound(playerAudioSource);
+           SoundManager.Instance.SetPlayerSound(playerAudioSource);
            StartCoroutine(DealConstantDamage());
+           uiManager.SetMaxHealth(playerController.GetMaxHealth());    
+            
         }
 
         void Update()
@@ -88,6 +91,18 @@ namespace Game.player
         {
             horizontalInput = Input.GetAxis("Horizontal");
             verticalInput = Input.GetAxis("Vertical");
+            if(Input.GetKeyDown(KeyCode.Escape))
+            {
+                if (Time.timeScale != 0)
+                {
+                    uiManager.Pause();
+                }
+                else
+                {
+                    uiManager.Resume();
+                }
+                
+            }
             if(JumpButton= Input.GetButtonDown("Jump") && isGrounded)
             {
                 SoundManager.Instance.PlayerSoundPlay(Sounds.jump);
@@ -103,10 +118,7 @@ namespace Game.player
             else if (Input.GetKeyUp(KeyCode.LeftShift) ||!isGrounded)
             {
                 isRunning= false;
-            }   
-            
-            
-            
+            }        
             if((horizontalInput!=0 || verticalInput!=0 ) ) {
                 isMoving = true;
                
@@ -136,10 +148,8 @@ namespace Game.player
             }
 
         }
-
         private void Run()
-        {
-           
+        {  
             move = transform.right * horizontalInput + transform.forward * verticalInput *Runspeed;
             if(!isRunning && isGrounded)
             {
@@ -147,66 +157,63 @@ namespace Game.player
                 isRunning = true;
             }
         }
-
         private void Hover()
         {
 
             velocity.y += gravity * Time.deltaTime * hoverPower;
         }
-
         private void Jump()
         {
             velocity.y = Mathf.Sqrt(jumpHeignt * -2 * gravity);
         }
-
         private void Movement()
         {
-            
             characterController.Move(move * playerController.GetSpeed() *Time.deltaTime);
-
             if (velocity.y > -10f)
             {
                 velocity.y += gravity * Time.deltaTime;
             }
-            
-
             characterController.Move(velocity *Time.deltaTime);
         }
 
         public void Death()
         {
-            UIService.Instance.GameOver();
-        }
-        private void CollectStars()
-        {
-
+            uiManager.GameOver();
         }
 
         public void Heal()
         {
             playerController.Heal();
+            Debug.Log("Healing");
             ShowHealth();
         }
         public void ShowHealth()
         {
             int health= playerController.GetHealth();
-            UIService.Instance.HealthSet(health);
+            uiManager.HealthSet(health);
         }
         private void TakeDamage()
         {
            int health= playerController.TakeDamage();
             Debug.Log(health);
-            UIService.Instance.HealthSet(health);
+            uiManager.HealthSet(health);
         }
         public IEnumerator DealConstantDamage()
         {
             TakeDamage();
             yield return new WaitForSeconds(HealthDecreaseRate);
-            Debug.Log("TAkeDamage");
             if (playerController.GetHealth() > 0)
             {
                 StartCoroutine(DealConstantDamage());
             }
+        }
+
+        public void SetUIManager(UiManger _uiManger)
+        {
+            uiManager = _uiManger;
+        }private void SetPlayerUI()
+        {
+            
         }
     }
 }
