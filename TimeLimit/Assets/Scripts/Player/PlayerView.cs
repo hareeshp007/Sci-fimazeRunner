@@ -1,13 +1,10 @@
 namespace Game.player
 {
-    using Game.UI;
     using System;
     using System.Collections;
-    using System.Collections.Generic;
-    using Unity.VisualScripting;
     using UnityEngine;
 
-    public class PlayerView : MonoBehaviour
+    public class PlayerView : MonoBehaviour,IDamagable
     {
         public Transform GroundCheck;
         public LayerMask GroundMask;
@@ -198,6 +195,11 @@ namespace Game.player
             Debug.Log(health);
             uiManager.HealthSet(health);
         }
+        public void TakeDamage(int damage)
+        {
+            int health = playerController.TakeDamage(damage);
+            uiManager.HealthSet(health);
+        }
         public IEnumerator DealConstantDamage()
         {
             TakeDamage();
@@ -211,9 +213,16 @@ namespace Game.player
         public void SetUIManager(UiManger _uiManger)
         {
             uiManager = _uiManger;
-        }private void SetPlayerUI()
+        }
+
+        internal void GameWon()
         {
-            
+            uiManager.GameWonMenu();
+        }
+
+        internal void Died()
+        {
+            uiManager.GameOver();
         }
     }
 }

@@ -1,6 +1,4 @@
 using Game.player;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerService : MonoSingletonGeneric<PlayerService>

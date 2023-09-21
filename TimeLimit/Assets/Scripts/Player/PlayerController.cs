@@ -1,7 +1,3 @@
-using Game.UI;
-using System;
-using System.Diagnostics;
-using System.Numerics;
 
 namespace Game.player
 {
@@ -38,9 +34,20 @@ namespace Game.player
                 return 0;
             }
         }
-        public void Death()
+        public int TakeDamage(int damage)
         {
-            
+            int health = _Model.health;
+            if (health - damage > 0)
+            {
+                health -= damage;
+                _Model.SetHealth(health);
+                return health;
+            }
+            else
+            {
+                _View.Death();
+                return 0;
+            }
         }
         public int GetHealth()
         {

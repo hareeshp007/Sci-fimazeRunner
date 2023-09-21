@@ -1,8 +1,5 @@
 using Game.player;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Xml.Linq;
+using Game.UI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -23,7 +20,7 @@ public class UiManger : MonoBehaviour
     [SerializeField]
     private int CurrLevel;
     [SerializeField]
-    private int MaxLevel;
+    private int MaxLevel=3;
     [SerializeField]
     private PlayerView player;
 
@@ -45,7 +42,7 @@ public class UiManger : MonoBehaviour
         GameWon.SetActive(false);
         InGame.SetActive(true);
         PauseMenu.SetActive(false);
-
+        Cursor.lockState = CursorLockMode.Locked;
         player = PlayerService.Instance.GetPlayer();
         player.SetUIManager(this);
     }
@@ -71,12 +68,14 @@ public class UiManger : MonoBehaviour
     public void MainMenuActive()
     {
         Time.timeScale = 0;
+        Cursor.lockState = CursorLockMode.None;
         InGame.SetActive(false);
         GameOverMenu.SetActive(true);
     }
     public void GameWonMenu()
     {
         Time.timeScale = 0;
+        Cursor.lockState = CursorLockMode.None;
         GameWon.SetActive(true);
         InGame.SetActive(false);
     }
@@ -91,7 +90,8 @@ public class UiManger : MonoBehaviour
     }
     public void NextLevel()
     {
-        if (CurrLevel + 1 <= MaxLevel)
+        LevelManeger.Instance.MarkCurrentLevelCompleted();
+        if (CurrLevel<MaxLevel)
         {
             SceneManager.LoadScene(CurrLevel + 1);
         }
