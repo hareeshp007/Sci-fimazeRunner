@@ -12,8 +12,9 @@ namespace Game.player
         public Transform GroundCheck;
         public LayerMask GroundMask;
 
-
         private PlayerController playerController;
+        [SerializeField]
+        private AudioSource playerAudioSource;
 
         [SerializeField]
         private float groundDistance = 0.4f;
@@ -44,6 +45,18 @@ namespace Game.player
         private float hoverPower;
         [SerializeField]
         private float Runspeed;
+        [SerializeField]
+        private bool isMoving;
+        [SerializeField]
+        private bool ishover;
+        [SerializeField]
+        private bool isRunning;
+        [SerializeField]
+        private bool isSoundPlay;
+
+        [SerializeField]
+        private float HealthDecreaseRate = 5f;
+
 
         public void SetPlayerController(PlayerController Controller)
         {
@@ -51,8 +64,10 @@ namespace Game.player
         }
         void Start()
         {
-            characterController = GetComponent<CharacterController>();
-           
+           characterController = GetComponent<CharacterController>();
+           playerAudioSource = GetComponent<AudioSource>();
+            SoundManager.Instance.SetPlayerSound(playerAudioSource);
+           StartCoroutine(DealConstantDamage());
         }
 
         void Update()
@@ -73,28 +88,64 @@ namespace Game.player
         {
             horizontalInput = Input.GetAxis("Horizontal");
             verticalInput = Input.GetAxis("Vertical");
-            if(Input.GetButtonDown("Jump") && isGrounded)
+            if(JumpButton= Input.GetButtonDown("Jump") && isGrounded)
             {
+                SoundManager.Instance.PlayerSoundPlay(Sounds.jump);
                 Jump();
+                
             }
             if( Input.GetButton("Jump") && !isGrounded && velocity.y<0)
             {
+                ishover = true;
                 Hover();
             }
-            if(Input.GetKey(KeyCode.LeftShift) && isGrounded)
+            
+            else if (Input.GetKeyUp(KeyCode.LeftShift) ||!isGrounded)
             {
-                Run();
+                isRunning= false;
+            }   
+            
+            
+            
+            if((horizontalInput!=0 || verticalInput!=0 ) ) {
+                isMoving = true;
+               
+                if (Input.GetKey(KeyCode.LeftShift))
+                {
+                    Run();
+                }
+                else
+                {
+                    move = transform.right * horizontalInput + transform.forward * verticalInput;
+                }
             }
-            else {
+            else
+            {
+                isMoving = false;
+                
+            }
+            if (isRunning && !isSoundPlay)
+            {
+                SoundManager.Instance.PlayerSoundLoopPlay(Sounds.walk);
+                isSoundPlay = true;
+                Debug.Log("ismoving");
+            }if(!isRunning && isSoundPlay)
+            {
+                SoundManager.Instance.PlayerSoundStop(Sounds.walk);
+                isSoundPlay = false;
+            }
 
-                move = transform.right * horizontalInput + transform.forward * verticalInput;
-            }
         }
 
         private void Run()
         {
+           
             move = transform.right * horizontalInput + transform.forward * verticalInput *Runspeed;
-
+            if(!isRunning && isGrounded)
+            {
+                Debug.Log("Running");
+                isRunning = true;
+            }
         }
 
         private void Hover()
@@ -140,6 +191,22 @@ namespace Game.player
         {
             int health= playerController.GetHealth();
             UIService.Instance.HealthSet(health);
+        }
+        private void TakeDamage()
+        {
+           int health= playerController.TakeDamage();
+            Debug.Log(health);
+            UIService.Instance.HealthSet(health);
+        }
+        public IEnumerator DealConstantDamage()
+        {
+            TakeDamage();
+            yield return new WaitForSeconds(HealthDecreaseRate);
+            Debug.Log("TAkeDamage");
+            if (playerController.GetHealth() > 0)
+            {
+                StartCoroutine(DealConstantDamage());
+            }
         }
     }
 }

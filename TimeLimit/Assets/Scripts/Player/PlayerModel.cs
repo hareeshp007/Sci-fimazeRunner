@@ -16,6 +16,7 @@ namespace Game.player
         private float RotationSpeed { get; set; }
 
         public int KeysNeeded { get; set; }
+        public int DamageValue { get; private set; }
 
         public PlayerModel()
         {
@@ -45,6 +46,7 @@ namespace Game.player
             JumpHeight = playerSO.jumpHeight;
             JumpHoverValue = playerSO.JumpHoveringValue;
             HealValue = playerSO.HealValue;
+            DamageValue = playerSO.DamageValue;
         }
     }
 }

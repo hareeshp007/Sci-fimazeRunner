@@ -14,4 +14,5 @@ public class PlayerSO : ScriptableObject
     public float jumpHeight;
     public float JumpHoveringValue;
     public PlayerView player;
+    public int DamageValue;
 }

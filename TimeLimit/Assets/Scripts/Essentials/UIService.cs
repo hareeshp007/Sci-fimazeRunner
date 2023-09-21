@@ -20,13 +20,11 @@ namespace Game.UI
         private float maxHealth =100;
         [SerializeField]
         private float lerpSpeed;
-        [SerializeField]
-        private float HealthDecreaseRate = 5f;
+
 
         private void Start()
         {
             health = maxHealth;
-            StartCoroutine(DealConstantDamage());
         }
         private void Update()
         {
@@ -34,16 +32,7 @@ namespace Game.UI
             lerpSpeed = 3f * Time.deltaTime;
         }
 
-        public IEnumerator DealConstantDamage()
-        {
-            health--;
-            HealthUpdateGui();
-            yield return new WaitForSeconds(HealthDecreaseRate);
-            if(health > 0)
-            {
-                StartCoroutine(DealConstantDamage());
-            }
-        }
+        
 
         public void Heal( int HealValue)
         {

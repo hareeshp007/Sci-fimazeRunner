@@ -1,5 +1,6 @@
 using Game.UI;
 using System;
+using System.Diagnostics;
 using System.Numerics;
 
 namespace Game.player
@@ -20,22 +21,26 @@ namespace Game.player
             speed = _Model.speed;
         }
 
-        public void TakeDamage(int damage)
+        public int TakeDamage()
         {
+            int damage=_Model.DamageValue;
             int health = _Model.health;
             if (health - damage > 0)
             {
                 health -= damage;
-                UIService.Instance.HealthSet(health);
+                _Model.SetHealth(health);
+                return health;
+                
             }
             else
             {
-                Death();
+                _View.Death();
+                return 0;
             }
         }
         public void Death()
         {
-            _View.Death();
+            
         }
         public int GetHealth()
         {
