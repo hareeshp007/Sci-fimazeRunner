@@ -76,6 +76,7 @@ public class UiManger : MonoBehaviour
     {
         Time.timeScale = 0;
         Cursor.lockState = CursorLockMode.None;
+        LevelManeger.Instance.MarkCurrentLevelCompleted();
         GameWon.SetActive(true);
         InGame.SetActive(false);
     }
@@ -90,16 +91,7 @@ public class UiManger : MonoBehaviour
     }
     public void NextLevel()
     {
-        LevelManeger.Instance.MarkCurrentLevelCompleted();
-        if (CurrLevel<MaxLevel)
-        {
-            SceneManager.LoadScene(CurrLevel + 1);
-        }
-        else
-        {
-            Debug.Log("Levels Completed");
-            SceneManager.LoadScene(mainMenuScene);
-        }
+        LevelManeger.Instance.LoadNextLevel();
     }
 
     public void HealthSet(int Health)

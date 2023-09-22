@@ -11,7 +11,7 @@ public class PlayerCamera : MonoBehaviour
     private float xRotation = 0f;
     void Start()
     {
-        PlayerObject=PlayerService.Instance.GetPlayer().gameObject.transform;
+        //PlayerObject=PlayerService.Instance.GetPlayer().gameObject.transform;
         Cursor.lockState = CursorLockMode.Locked;
     }
     void Update()
@@ -32,5 +32,9 @@ public class PlayerCamera : MonoBehaviour
 
         transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
         PlayerObject.Rotate(Vector3.up * mouseX);
+    }
+    public void SetPlayer(Transform Player)
+    {
+        PlayerObject = Player;
     }
 }

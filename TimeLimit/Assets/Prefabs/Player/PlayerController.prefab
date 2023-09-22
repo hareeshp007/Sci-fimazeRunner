@@ -110,6 +110,7 @@ MonoBehaviour:
   GroundMask:
     serializedVersion: 2
     m_Bits: 256
+  uiManager: {fileID: 0}
   playerAudioSource: {fileID: 0}
   groundDistance: 0.4
   speed: 4
@@ -125,7 +126,8 @@ MonoBehaviour:
   isMoving: 0
   ishover: 0
   isRunning: 0
-  isSoundPlayMoving: 0
+  isSoundPlay: 0
+  HealthDecreaseRate: 2
 --- !u!82 &766487372320952973
 AudioSource:
   m_ObjectHideFlags: 0

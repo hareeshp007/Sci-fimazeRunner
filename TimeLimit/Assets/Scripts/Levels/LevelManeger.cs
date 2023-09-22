@@ -22,6 +22,16 @@ namespace Game.UI
             SceneManager.LoadScene(LevelNumber);
             Debug.Log("Loading Level :" + LevelNumber);
         }
+        public void LoadNextLevel()
+        {
+            int Currscene = SceneManager.GetActiveScene().buildIndex;
+            if (Currscene <= Levels.Length)
+            {
+                LoadAnyLevel(Currscene+1);
+            }
+            Debug.Log(Currscene+1);
+            
+        }
         public void MarkCurrentLevelCompleted()
         {
             UnityEngine.SceneManagement.Scene currentscene = SceneManager.GetActiveScene();

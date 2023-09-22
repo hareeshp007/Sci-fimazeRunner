@@ -192,7 +192,6 @@ namespace Game.player
         private void TakeDamage()
         {
            int health= playerController.TakeDamage();
-            Debug.Log(health);
             uiManager.HealthSet(health);
         }
         public void TakeDamage(int damage)

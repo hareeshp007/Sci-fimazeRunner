@@ -993,7 +993,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2919407322089204623, guid: d59fe6df24b35fc4ea67144bfc8da6e2, type: 3}
       propertyPath: m_Name
-      value: SoundManager (1)
+      value: SoundManager
       objectReference: {fileID: 0}
     - target: {fileID: 3190020184249522260, guid: d59fe6df24b35fc4ea67144bfc8da6e2, type: 3}
       propertyPath: Loop
