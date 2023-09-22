@@ -25,9 +25,13 @@ namespace Game.UI
         public void LoadNextLevel()
         {
             int Currscene = SceneManager.GetActiveScene().buildIndex;
-            if (Currscene <= Levels.Length)
+            if (Currscene < Levels.Length)
             {
                 LoadAnyLevel(Currscene+1);
+            }
+            else
+            {
+                LoadAnyLevel(0);
             }
             Debug.Log(Currscene+1);
             

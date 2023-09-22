@@ -127,7 +127,7 @@ MonoBehaviour:
   ishover: 0
   isRunning: 0
   isSoundPlay: 0
-  HealthDecreaseRate: 2
+  HealthDecreaseRate: 1
 --- !u!82 &766487372320952973
 AudioSource:
   m_ObjectHideFlags: 0
