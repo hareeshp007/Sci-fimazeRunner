@@ -10,6 +10,7 @@ namespace Game.player
         public LayerMask GroundMask;
         public UiManger uiManager;
 
+        public static event Action<int> AchevementsUnlock;
         private PlayerController playerController;
         [SerializeField]
         private AudioSource playerAudioSource;
@@ -192,7 +193,7 @@ namespace Game.player
         private void TakeDamage()
         {
            int health= playerController.TakeDamage();
-            uiManager.HealthSet(health);
+           uiManager.HealthSet(health);
         }
         public void TakeDamage(int damage)
         {
@@ -208,18 +209,30 @@ namespace Game.player
                 StartCoroutine(DealConstantDamage());
             }
         }
+        private void checkAchevement()
+        {
+            int health=playerController.GetHealth();
+            if (health >= 80)
+            {
+                AchevementsUnlock?.Invoke(4);
+            }
+            else if (health >= 60) AchevementsUnlock?.Invoke(3);
+            else if (health >= 50) AchevementsUnlock?.Invoke(2);
+            else if (health >= 40) AchevementsUnlock?.Invoke(1);
+        }
 
         public void SetUIManager(UiManger _uiManger)
         {
             uiManager = _uiManger;
         }
 
-        internal void GameWon()
+        public void GameWon()
         {
+            checkAchevement();
             uiManager.GameWonMenu();
         }
 
-        internal void Died()
+        public void Died()
         {
             uiManager.GameOver();
         }

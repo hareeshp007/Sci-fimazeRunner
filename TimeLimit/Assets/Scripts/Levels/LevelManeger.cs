@@ -24,17 +24,19 @@ namespace Game.UI
         }
         public void LoadNextLevel()
         {
-            int Currscene = SceneManager.GetActiveScene().buildIndex;
-            if (Currscene < Levels.Length)
+            
+            UnityEngine.SceneManagement.Scene currentscene = SceneManager.GetActiveScene();
+            int currentsceneIndex = Array.FindIndex(Levels, level => level == currentscene.name);
+            int nextsceneindex = currentsceneIndex + 1;
+            if (nextsceneindex < Levels.Length)
             {
-                LoadAnyLevel(Currscene+1);
+                SceneManager.LoadScene(Levels[nextsceneindex]);
+                Debug.Log(Levels[nextsceneindex] + "next scene name");
             }
             else
             {
-                LoadAnyLevel(0);
+                SceneManager.LoadScene(0);
             }
-            Debug.Log(Currscene+1);
-            
         }
         public void MarkCurrentLevelCompleted()
         {

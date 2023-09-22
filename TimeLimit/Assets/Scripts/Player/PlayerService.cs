@@ -16,7 +16,11 @@ public class PlayerService : MonoSingletonGeneric<PlayerService>
     protected override void Awake()
     {
         base.Awake();
-        CreatePlayer();
+        
+    }
+    private void Start()
+    {
+        
     }
 
     private void CreatePlayer()
@@ -31,8 +35,13 @@ public class PlayerService : MonoSingletonGeneric<PlayerService>
     {
         return this.playerView;
     }
-    private void SetUIManager()
+    public void SetUIManager(UiManger _uiManger)
     {
-        playerView.SetUIManager(uiManger);
+        uiManger = _uiManger;
+        CreatePlayer();
+    }
+    public void SetUIManager()
+    {
+        this.playerView.SetUIManager(uiManger);
     }
 }

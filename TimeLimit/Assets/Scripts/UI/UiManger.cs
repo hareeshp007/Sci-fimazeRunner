@@ -1,5 +1,7 @@
 using Game.player;
 using Game.UI;
+using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -7,6 +9,10 @@ using UnityEngine.UI;
 
 public class UiManger : MonoBehaviour
 {
+    [SerializeField]
+    private TextMeshProUGUI AchevementsForCompletingLevel;
+    [SerializeField]
+    private List<string> Achevements;
     [SerializeField]
     private GameObject PauseMenu;
     [SerializeField]
@@ -21,8 +27,6 @@ public class UiManger : MonoBehaviour
     private int CurrLevel;
     [SerializeField]
     private int MaxLevel=3;
-    [SerializeField]
-    private PlayerView player;
 
     public Image HealthImage;
     public TextMeshProUGUI HealthText;
@@ -34,8 +38,15 @@ public class UiManger : MonoBehaviour
     [SerializeField]
     private float lerpSpeed;
 
+    private Coroutine AchevementDisplay;
+
+    private void Awake()
+    {
+        PlayerService.Instance.SetUIManager(this);
+    }
     private void Start()
     {
+
         CurrLevel = SceneManager.GetActiveScene().buildIndex;
         Time.timeScale = 1;
         GameOverMenu.SetActive(false);
@@ -43,8 +54,29 @@ public class UiManger : MonoBehaviour
         InGame.SetActive(true);
         PauseMenu.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
-        player = PlayerService.Instance.GetPlayer();
-        player.SetUIManager(this);
+        PlayerView.AchevementsUnlock += UnlockAchements;
+    }
+    private void UnlockAchements(int obj)
+    {
+        Debug.Log("Achevemenet :" + obj);
+        switch (obj)
+        {
+            
+            case 1:
+                AchevementsForCompletingLevel.text = Achevements[0];
+                break;
+            case 2:
+                AchevementsForCompletingLevel.text = Achevements[1];
+                break;
+            case 3:
+                AchevementsForCompletingLevel.text = Achevements[2];
+                break;
+            case 4:
+                AchevementsForCompletingLevel.text = Achevements[3];
+                break;
+        }
+
+        
     }
     private void Update()
     {

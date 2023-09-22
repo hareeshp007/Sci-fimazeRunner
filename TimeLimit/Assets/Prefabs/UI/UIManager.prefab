@@ -44,6 +44,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1053491a82c3844db1b4f245ab9140d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AchevementsForCompletingLevel: {fileID: 0}
+  Achevements:
+  - Slow as a Snail
+  - You Made it in Time
+  - Excellant Timing
+  - Fast n Furious
   PauseMenu: {fileID: 0}
   InGame: {fileID: 0}
   GameOverMenu: {fileID: 0}
@@ -51,9 +57,9 @@ MonoBehaviour:
   mainMenuScene: MainMenu
   CurrLevel: 0
   MaxLevel: 4
-  player: {fileID: 0}
   HealthImage: {fileID: 0}
   HealthText: {fileID: 0}
   health: 0
   maxHealth: 100
   lerpSpeed: 0
+  Duration: 4
