@@ -19,7 +19,6 @@ namespace Game
         {
             SetVolume(userVolume);
             PlayMusic(Sounds.music);
-            //VolumeSlider.value = Volume;
         }
         private void SetVolume()
         {

@@ -1,4 +1,3 @@
-using System;
 
 namespace Game.player
 {
@@ -13,9 +12,6 @@ namespace Game.player
         public int HealValue { get; private set; }
         public float JumpHeight { get; private set; }
         public float JumpHoverValue { get; private set; }
-        private float RotationSpeed { get; set; }
-
-        public int KeysNeeded { get; set; }
         public int DamageValue { get; private set; }
 
         public PlayerModel()

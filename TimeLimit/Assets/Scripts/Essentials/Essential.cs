@@ -4,6 +4,7 @@ namespace Assets.Scripts.Essentials
 {
     public class Essential
     {
-        public static string player { get { return "Player"; } private set { } }
+        public const string player = "Player";
+        public static int[] AchevementO2Levels = { 80, 60, 50, 40 };
     }
 }

@@ -1,6 +1,5 @@
 using Game.player;
 using Game.UI;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -26,19 +25,14 @@ public class UiManger : MonoBehaviour
     [SerializeField]
     private int CurrLevel;
     [SerializeField]
-    private int MaxLevel=3;
+    private float health;
+    [SerializeField]
+    private float maxHealth;
 
     public Image HealthImage;
     public TextMeshProUGUI HealthText;
 
-    [SerializeField]
-    private float health;
-    [SerializeField]
-    private float maxHealth = 100;
-    [SerializeField]
-    private float lerpSpeed;
 
-    private Coroutine AchevementDisplay;
 
     private void Awake()
     {
@@ -46,7 +40,12 @@ public class UiManger : MonoBehaviour
     }
     private void Start()
     {
+        init();
+        
+    }
 
+    private void init()
+    {
         CurrLevel = SceneManager.GetActiveScene().buildIndex;
         Time.timeScale = 1;
         GameOverMenu.SetActive(false);
@@ -56,6 +55,7 @@ public class UiManger : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         PlayerView.AchevementsUnlock += UnlockAchements;
     }
+
     private void UnlockAchements(int obj)
     {
         Debug.Log("Achevemenet :" + obj);
@@ -77,10 +77,6 @@ public class UiManger : MonoBehaviour
         }
 
         
-    }
-    private void Update()
-    {
-        lerpSpeed = 3f * Time.deltaTime;
     }
     public void Resume()
     {
@@ -152,7 +148,6 @@ public class UiManger : MonoBehaviour
         if (health > maxHealth) health = maxHealth;
         if (health < 0) health = 0;
         HealthText.text = health + "%";
-
         HealthBarFiller();
     }
     public void SetMaxHealth(int MaxHealth)

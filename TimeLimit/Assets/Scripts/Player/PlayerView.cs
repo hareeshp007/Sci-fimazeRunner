@@ -1,9 +1,10 @@
-namespace Game.player
-{
+
+    using Assets.Scripts.Essentials;
     using System;
     using System.Collections;
     using UnityEngine;
-
+namespace Game.player
+{
     public class PlayerView : MonoBehaviour,IDamagable
     {
         public Transform GroundCheck;
@@ -32,8 +33,10 @@ namespace Game.player
         [SerializeField]
         private float jumpHeignt = 6f;
 
-
-
+        [SerializeField]
+        private  float jumbVariable = -2f;
+        [SerializeField]
+        private  float minYVelocity = -10f;
         private CharacterController characterController;
         private float verticalInput;
         private float horizontalInput;
@@ -44,10 +47,6 @@ namespace Game.player
         private float hoverPower;
         [SerializeField]
         private float Runspeed;
-        [SerializeField]
-        private bool isMoving;
-        [SerializeField]
-        private bool ishover;
         [SerializeField]
         private bool isRunning;
         [SerializeField]
@@ -82,7 +81,7 @@ namespace Game.player
             isGrounded =Physics.CheckSphere(GroundCheck.position, groundDistance, GroundMask);
             if(isGrounded && velocity.y < 0)
             {
-                velocity.y = -2f;
+                velocity.y = jumbVariable;
             }
         }
         private void HandleInput()
@@ -109,7 +108,6 @@ namespace Game.player
             }
             if( Input.GetButton("Jump") && !isGrounded && velocity.y<0)
             {
-                ishover = true;
                 Hover();
             }
             
@@ -118,7 +116,7 @@ namespace Game.player
                 isRunning= false;
             }        
             if((horizontalInput!=0 || verticalInput!=0 ) ) {
-                isMoving = true;
+
                
                 if (Input.GetKey(KeyCode.LeftShift))
                 {
@@ -129,11 +127,7 @@ namespace Game.player
                     move = transform.right * horizontalInput + transform.forward * verticalInput;
                 }
             }
-            else
-            {
-                isMoving = false;
-                
-            }
+
             if (isRunning && !isSoundPlay)
             {
                 SoundManager.Instance.PlayerSoundLoopPlay(Sounds.walk);
@@ -162,12 +156,12 @@ namespace Game.player
         }
         private void Jump()
         {
-            velocity.y = Mathf.Sqrt(jumpHeignt * -2 * gravity);
+            velocity.y = Mathf.Sqrt(jumpHeignt * jumbVariable * gravity);
         }
         private void Movement()
         {
             characterController.Move(move * playerController.GetSpeed() *Time.deltaTime);
-            if (velocity.y > -10f)
+            if (velocity.y > minYVelocity)
             {
                 velocity.y += gravity * Time.deltaTime;
             }
@@ -212,13 +206,16 @@ namespace Game.player
         private void checkAchevement()
         {
             int health=playerController.GetHealth();
-            if (health >= 80)
+            int length = Essential.AchevementO2Levels.Length;
+            for (int i = 0; i < length; i++)
             {
-                AchevementsUnlock?.Invoke(4);
+                if (health >= Essential.AchevementO2Levels[i])
+                {
+                    AchevementsUnlock?.Invoke(length - i);
+                    break; 
+                }
             }
-            else if (health >= 60) AchevementsUnlock?.Invoke(3);
-            else if (health >= 50) AchevementsUnlock?.Invoke(2);
-            else if (health >= 40) AchevementsUnlock?.Invoke(1);
+            
         }
 
         public void SetUIManager(UiManger _uiManger)

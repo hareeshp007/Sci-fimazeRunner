@@ -120,11 +120,11 @@ MonoBehaviour:
   isGrounded: 0
   JumpButton: 0
   jumpHeignt: 5
+  jumbVariable: -2
+  minYVelocity: -10
   Healvalue: 2
   hoverPower: -0.7
   Runspeed: 2
-  isMoving: 0
-  ishover: 0
   isRunning: 0
   isSoundPlay: 0
   HealthDecreaseRate: 1

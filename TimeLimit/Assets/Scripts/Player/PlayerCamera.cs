@@ -11,7 +11,6 @@ public class PlayerCamera : MonoBehaviour
     private float xRotation = 0f;
     void Start()
     {
-        //PlayerObject=PlayerService.Instance.GetPlayer().gameObject.transform;
         Cursor.lockState = CursorLockMode.Locked;
     }
     void Update()

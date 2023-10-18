@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class PlayerService : MonoSingletonGeneric<PlayerService>
 {
-    //
     public Transform StartPos;
     public PlayerSO playerSO;
     public UiManger uiManger;

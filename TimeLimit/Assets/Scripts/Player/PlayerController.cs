@@ -1,4 +1,5 @@
 
+
 namespace Game.player
 {
     public class PlayerController
@@ -66,13 +67,15 @@ namespace Game.player
         {
             
             int health=GetHealth();
-            if( health< _Model.Maxhealth)
+            int healValue = _Model.HealValue;
+            int maxHealth =_Model.Maxhealth;
+            if( health< maxHealth)
             {
-                health+=_Model.HealValue;
+                health += (healValue);
                 
-            }if(health> _Model.Maxhealth)
+            }if(health> maxHealth)
             {
-                health=_Model.Maxhealth;
+                health= maxHealth;
             }
             _Model.SetHealth(health);
         }
