@@ -5,13 +5,13 @@ using UnityEngine;
 
 namespace ShadowVision {
     public abstract class SinAnimation : MonoBehaviour {
-        public float speed = 1;
+        public float Speed = 1;
         public float wavelength = 1;
         public float phase = 0;
 
         // Update is called once per frame
         void Update() {
-            OnValueChange(WaveUtils.SinWave01(Time.time * speed, 1, wavelength, phase));
+            OnValueChange(WaveUtils.SinWave01(Time.time * Speed, 1, wavelength, phase));
         }
 
         /// <summary>

@@ -9,21 +9,21 @@ using UnityEngine.UI;
 public class UiManger : MonoBehaviour
 {
     [SerializeField]
-    private TextMeshProUGUI AchevementsForCompletingLevel;
+    private TextMeshProUGUI achevementsForCompletingLevel;
     [SerializeField]
-    private List<string> Achevements;
+    private List<string> achevements;
     [SerializeField]
-    private GameObject PauseMenu;
+    private GameObject pauseMenu;
     [SerializeField]
-    private GameObject InGame;
+    private GameObject inGame;
     [SerializeField]
-    private GameObject GameOverMenu;
+    private GameObject gameOverMenu;
     [SerializeField]
-    private GameObject GameWon;
+    private GameObject gameWon;
     [SerializeField]
     private string mainMenuScene;
     [SerializeField]
-    private int CurrLevel;
+    private int currLevel;
     [SerializeField]
     private float health;
     [SerializeField]
@@ -46,12 +46,12 @@ public class UiManger : MonoBehaviour
 
     private void init()
     {
-        CurrLevel = SceneManager.GetActiveScene().buildIndex;
+        currLevel = SceneManager.GetActiveScene().buildIndex;
         Time.timeScale = 1;
-        GameOverMenu.SetActive(false);
-        GameWon.SetActive(false);
-        InGame.SetActive(true);
-        PauseMenu.SetActive(false);
+        gameOverMenu.SetActive(false);
+        gameWon.SetActive(false);
+        inGame.SetActive(true);
+        pauseMenu.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         PlayerView.AchevementsUnlock += UnlockAchements;
     }
@@ -63,16 +63,16 @@ public class UiManger : MonoBehaviour
         {
             
             case 1:
-                AchevementsForCompletingLevel.text = Achevements[0];
+                achevementsForCompletingLevel.text = achevements[0];
                 break;
             case 2:
-                AchevementsForCompletingLevel.text = Achevements[1];
+                achevementsForCompletingLevel.text = achevements[1];
                 break;
             case 3:
-                AchevementsForCompletingLevel.text = Achevements[2];
+                achevementsForCompletingLevel.text = achevements[2];
                 break;
             case 4:
-                AchevementsForCompletingLevel.text = Achevements[3];
+                achevementsForCompletingLevel.text = achevements[3];
                 break;
         }
 
@@ -82,31 +82,31 @@ public class UiManger : MonoBehaviour
     {
         Time.timeScale = 1;
         Cursor.lockState = CursorLockMode.Locked ;
-        InGame.SetActive(true);
-        PauseMenu.SetActive(false);
-        GameOverMenu.SetActive(false);
+        inGame.SetActive(true);
+        pauseMenu.SetActive(false);
+        gameOverMenu.SetActive(false);
     }
     public void Pause()
     {
         Time.timeScale = 0;
         Cursor.lockState = CursorLockMode.None;
-        InGame.SetActive(false);
-        PauseMenu.SetActive(true);
+        inGame.SetActive(false);
+        pauseMenu.SetActive(true);
     }
     public void MainMenuActive()
     {
         Time.timeScale = 0;
         Cursor.lockState = CursorLockMode.None;
-        InGame.SetActive(false);
-        GameOverMenu.SetActive(true);
+        inGame.SetActive(false);
+        gameOverMenu.SetActive(true);
     }
-    public void GameWonMenu()
+    public void gameWonMenu()
     {
         Time.timeScale = 0;
         Cursor.lockState = CursorLockMode.None;
         LevelManeger.Instance.MarkCurrentLevelCompleted();
-        GameWon.SetActive(true);
-        InGame.SetActive(false);
+        gameWon.SetActive(true);
+        inGame.SetActive(false);
     }
     public void MainMenuButton()
     {

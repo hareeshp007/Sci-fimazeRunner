@@ -45,5 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StartPos: {fileID: 0}
-  playerSO: {fileID: 11400000, guid: 65f4e05017de63c4a83d1a32f5cf9e75, type: 2}
+  PlayerSO: {fileID: 11400000, guid: 65f4e05017de63c4a83d1a32f5cf9e75, type: 2}
+  uiManger: {fileID: 0}
   playerView: {fileID: 0}

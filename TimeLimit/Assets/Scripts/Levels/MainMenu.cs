@@ -1,4 +1,5 @@
 
+using Game.UI;
 using UnityEngine;
 
 public class MainMenu : MonoBehaviour
@@ -28,8 +29,13 @@ public class MainMenu : MonoBehaviour
         HowToPlay.SetActive(false);
         LevelMenu.SetActive(false);
     }
+    public void LevelReset()
+    {
+        LevelManeger.Instance.LevelReset();
+    }
     public void Exit()
     {
         Application.Quit();
     }
+
 }

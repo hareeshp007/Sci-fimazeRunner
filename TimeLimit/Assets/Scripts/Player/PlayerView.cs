@@ -9,7 +9,7 @@ namespace Game.player
     {
         public Transform GroundCheck;
         public LayerMask GroundMask;
-        public UiManger uiManager;
+        public UiManger UIManager;
 
         public static event Action<int> AchevementsUnlock;
         private PlayerController playerController;
@@ -19,8 +19,6 @@ namespace Game.player
         [SerializeField]
         private float groundDistance = 0.4f;
         [SerializeField]
-        private int speed;
-        [SerializeField]
         private Vector3 velocity;
         [SerializeField]
         private Vector3 move;
@@ -29,31 +27,34 @@ namespace Game.player
         [SerializeField]
         private bool isGrounded;
         [SerializeField]
-        private bool JumpButton;
+        private bool jumpButton;
         [SerializeField]
         private float jumpHeignt = 6f;
-
         [SerializeField]
         private  float jumbVariable = -2f;
         [SerializeField]
         private  float minYVelocity = -10f;
+        [SerializeField]
         private CharacterController characterController;
+        [SerializeField]
+        private float hoverPower;
+        [SerializeField]
+        private float runSpeed;
+        [SerializeField]
+        private float speed;
+        [SerializeField]
+        private bool isRunning;
+        [SerializeField]
+        private bool isSoundPlay;
+        [SerializeField]
+        private float HealthDecreaseRate = 5f;
+
         private float verticalInput;
         private float horizontalInput;
 
         public int Healvalue;
 
-        [SerializeField]
-        private float hoverPower;
-        [SerializeField]
-        private float Runspeed;
-        [SerializeField]
-        private bool isRunning;
-        [SerializeField]
-        private bool isSoundPlay;
-
-        [SerializeField]
-        private float HealthDecreaseRate = 5f;
+        
 
 
         public void SetPlayerController(PlayerController Controller)
@@ -66,7 +67,7 @@ namespace Game.player
            playerAudioSource = GetComponent<AudioSource>();
            SoundManager.Instance.SetPlayerSound(playerAudioSource);
            StartCoroutine(DealConstantDamage());
-           uiManager.SetMaxHealth(playerController.GetMaxHealth());    
+           UIManager.SetMaxHealth(playerController.GetMaxHealth());    
             
         }
 
@@ -92,15 +93,15 @@ namespace Game.player
             {
                 if (Time.timeScale != 0)
                 {
-                    uiManager.Pause();
+                    UIManager.Pause();
                 }
                 else
                 {
-                    uiManager.Resume();
+                    UIManager.Resume();
                 }
                 
             }
-            if(JumpButton= Input.GetButtonDown("Jump") && isGrounded)
+            if(jumpButton= Input.GetButtonDown("Jump") && isGrounded)
             {
                 SoundManager.Instance.PlayerSoundPlay(Sounds.jump);
                 Jump();
@@ -141,8 +142,9 @@ namespace Game.player
 
         }
         private void Run()
-        {  
-            move = transform.right * horizontalInput + transform.forward * verticalInput *Runspeed;
+        {
+            runSpeed = playerController.GetRunSpeed();
+            move = transform.right * horizontalInput + transform.forward * verticalInput *runSpeed;
             if(!isRunning && isGrounded)
             {
                 Debug.Log("Running");
@@ -151,7 +153,6 @@ namespace Game.player
         }
         private void Hover()
         {
-
             velocity.y += gravity * Time.deltaTime * hoverPower;
         }
         private void Jump()
@@ -160,7 +161,8 @@ namespace Game.player
         }
         private void Movement()
         {
-            characterController.Move(move * playerController.GetSpeed() *Time.deltaTime);
+            speed = playerController.GetSpeed();
+            characterController.Move(move * speed * Time.deltaTime);
             if (velocity.y > minYVelocity)
             {
                 velocity.y += gravity * Time.deltaTime;
@@ -170,7 +172,7 @@ namespace Game.player
 
         public void Death()
         {
-            uiManager.GameOver();
+            UIManager.GameOver();
         }
 
         public void Heal()
@@ -182,17 +184,17 @@ namespace Game.player
         public void ShowHealth()
         {
             int health= playerController.GetHealth();
-            uiManager.HealthSet(health);
+            UIManager.HealthSet(health);
         }
         private void TakeDamage()
         {
            int health= playerController.TakeDamage();
-           uiManager.HealthSet(health);
+           UIManager.HealthSet(health);
         }
         public void TakeDamage(int damage)
         {
             int health = playerController.TakeDamage(damage);
-            uiManager.HealthSet(health);
+            UIManager.HealthSet(health);
         }
         public IEnumerator DealConstantDamage()
         {
@@ -206,10 +208,10 @@ namespace Game.player
         private void checkAchevement()
         {
             int health=playerController.GetHealth();
-            int length = Essential.AchevementO2Levels.Length;
+            int length = GameConstants.Achevemento2levels.Length;
             for (int i = 0; i < length; i++)
             {
-                if (health >= Essential.AchevementO2Levels[i])
+                if (health >= GameConstants.Achevemento2levels[i])
                 {
                     AchevementsUnlock?.Invoke(length - i);
                     break; 
@@ -220,18 +222,18 @@ namespace Game.player
 
         public void SetUIManager(UiManger _uiManger)
         {
-            uiManager = _uiManger;
+            UIManager = _uiManger;
         }
 
-        public void GameWon()
+        public void gameWon()
         {
             checkAchevement();
-            uiManager.GameWonMenu();
+            UIManager.gameWonMenu();
         }
 
         public void Died()
         {
-            uiManager.GameOver();
+            UIManager.GameOver();
         }
     }
 }

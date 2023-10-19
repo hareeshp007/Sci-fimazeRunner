@@ -11,7 +11,7 @@ namespace Game.Others
             if (other.GetComponent<PlayerView>()!=null)
             {
                 PlayerView player =other.GetComponent<PlayerView>();
-                player.GameWon();
+                player.gameWon();
             }
         }
         

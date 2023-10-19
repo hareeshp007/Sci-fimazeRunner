@@ -1,74 +1,74 @@
 
 
+using System;
+
 namespace Game.player
 {
     public class PlayerController
     {
-        private PlayerModel _Model;
-        private PlayerView _View;
+        private PlayerModel model;
+        private PlayerView view;
 
-        private int speed;
         public PlayerController(PlayerView playerView, PlayerModel playerModel,PlayerSO playerSO)
         {
-            _Model = playerModel;
-            _View = playerView;
-            _Model.SetValues(playerSO);
-            _Model.SetPlayerController(this);
-            _View.SetPlayerController(this);
-            speed = _Model.speed;
+            model = playerModel;
+            view = playerView;
+            model.SetValues(playerSO);
+            model.SetPlayerController(this);
+            view.SetPlayerController(this);
         }
 
         public int TakeDamage()
         {
-            int damage=_Model.DamageValue;
-            int health = _Model.health;
+            int damage=model.DamageValue;
+            int health = model.health;
             if (health - damage > 0)
             {
                 health -= damage;
-                _Model.SetHealth(health);
+                model.SetHealth(health);
                 return health;
                 
             }
             else
             {
-                _View.Death();
+                view.Death();
                 return 0;
             }
         }
         public int TakeDamage(int damage)
         {
-            int health = _Model.health;
+            int health = model.health;
             if (health - damage > 0)
             {
                 health -= damage;
-                _Model.SetHealth(health);
+                model.SetHealth(health);
                 return health;
             }
             else
             {
-                _View.Death();
+                view.Death();
                 return 0;
             }
         }
         public int GetHealth()
         {
-            return _Model.health;
+            return model.health;
         }
         public int GetMaxHealth()
         {
-            return _Model.Maxhealth;
+            return model.Maxhealth;
         }
         public int GetSpeed()
         {
-            return _Model.speed;
+            return model.Speed;
         }
 
         public void Heal()
         {
             
             int health=GetHealth();
-            int healValue = _Model.HealValue;
-            int maxHealth =_Model.Maxhealth;
+            int healValue = model.HealValue;
+            int maxHealth =model.Maxhealth;
             if( health< maxHealth)
             {
                 health += (healValue);
@@ -77,7 +77,12 @@ namespace Game.player
             {
                 health= maxHealth;
             }
-            _Model.SetHealth(health);
+            model.SetHealth(health);
+        }
+
+        public float GetRunSpeed()
+        {
+            return model.RunSpeed;
         }
     }
 }

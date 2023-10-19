@@ -6,7 +6,7 @@ public class PlayerSO : ScriptableObject
 {
     public int health;
     public int maxHealth;
-    public int speed;
+    public int Speed;
     public int RunSpeed;
     public int HealValue;
     public float jumpHeight;
