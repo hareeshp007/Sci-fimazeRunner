@@ -11,7 +11,7 @@ namespace ShadowVision {
             public Vector2 dir;
             public float steepness;
             public float wavelength;
-            public float speed;
+            public float Speed;
         }
         
         [System.Serializable]
@@ -41,13 +41,13 @@ namespace ShadowVision {
         /// <param name="direction">The direction of the wave</param>
         /// <param name="steepness">How steep the wave is</param>
         /// <param name="wavelength">How long the wave is</param>
-        /// <param name="speed">How fast is the wave moving</param>
+        /// <param name="Speed">How fast is the wave moving</param>
         /// <returns>The new position of the point</returns>
-        public static Vector3 GerstnerWave(Vector3 position, Vector2 direction, float steepness, float wavelength, float speed) {
+        public static Vector3 GerstnerWave(Vector3 position, Vector2 direction, float steepness, float wavelength, float Speed) {
                 float k = 2 * Mathf.PI / wavelength;
                 Vector2 d = direction.normalized;
                 Vector3 p = new Vector2(position.x, position.z);
-                float f = k * (Vector2.Dot(d, p) - speed * Time.time);
+                float f = k * (Vector2.Dot(d, p) - Speed * Time.time);
                 float a = steepness / k;
                 
                 p.x += d.x * (a * Mathf.Cos(f));
@@ -58,7 +58,7 @@ namespace ShadowVision {
         }
 
         public static Vector3 GerstnerWave(Vector3 position, GerstnerWaveData waveData) {
-            return GerstnerWave(position, waveData.dir, waveData.steepness, waveData.wavelength, waveData.speed);
+            return GerstnerWave(position, waveData.dir, waveData.steepness, waveData.wavelength, waveData.Speed);
         }
     }
 }

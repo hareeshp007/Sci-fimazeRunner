@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
 public class MonoSingletonGeneric<T> : MonoBehaviour where T : MonoSingletonGeneric<T>
@@ -13,7 +12,6 @@ public class MonoSingletonGeneric<T> : MonoBehaviour where T : MonoSingletonGene
     {
         if (instance == null)
         {
-            Debug.Log("Character init");
             instance = (T)this;
             DontDestroyOnLoad(gameObject);
         }

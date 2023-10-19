@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 0
   maxHealth: 100
-  speed: 5
+  Speed: 5
   RunSpeed: 2
-  HealValue: 1
+  HealValue: 2
   jumpHeight: 5
   JumpHoveringValue: -0.7
   player: {fileID: 6726809275941654785, guid: 93a9db91e3b96e548a36be81b3195335, type: 3}
+  DamageValue: 1

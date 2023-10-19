@@ -1,24 +1,23 @@
-namespace Game.player
-{
-    using Game.UI;
+
+    using Assets.Scripts.Essentials;
     using System;
     using System.Collections;
-    using System.Collections.Generic;
-    using Unity.VisualScripting;
     using UnityEngine;
-
-    public class PlayerView : MonoBehaviour
+namespace Game.player
+{
+    public class PlayerView : MonoBehaviour,IDamagable
     {
         public Transform GroundCheck;
         public LayerMask GroundMask;
+        public UiManger UIManager;
 
-
+        public static event Action<int> AchevementsUnlock;
         private PlayerController playerController;
+        [SerializeField]
+        private AudioSource playerAudioSource;
 
         [SerializeField]
         private float groundDistance = 0.4f;
-        [SerializeField]
-        private int speed;
         [SerializeField]
         private Vector3 velocity;
         [SerializeField]
@@ -28,22 +27,35 @@ namespace Game.player
         [SerializeField]
         private bool isGrounded;
         [SerializeField]
-        private bool JumpButton;
+        private bool jumpButton;
         [SerializeField]
         private float jumpHeignt = 6f;
-
-
-
+        [SerializeField]
+        private  float jumbVariable = -2f;
+        [SerializeField]
+        private  float minYVelocity = -10f;
+        [SerializeField]
         private CharacterController characterController;
+        [SerializeField]
+        private float hoverPower;
+        [SerializeField]
+        private float runSpeed;
+        [SerializeField]
+        private float speed;
+        [SerializeField]
+        private bool isRunning;
+        [SerializeField]
+        private bool isSoundPlay;
+        [SerializeField]
+        private float HealthDecreaseRate = 5f;
+
         private float verticalInput;
         private float horizontalInput;
 
         public int Healvalue;
 
-        [SerializeField]
-        private float hoverPower;
-        [SerializeField]
-        private float Runspeed;
+        
+
 
         public void SetPlayerController(PlayerController Controller)
         {
@@ -51,8 +63,12 @@ namespace Game.player
         }
         void Start()
         {
-            characterController = GetComponent<CharacterController>();
-           
+           characterController = GetComponent<CharacterController>();
+           playerAudioSource = GetComponent<AudioSource>();
+           SoundManager.Instance.SetPlayerSound(playerAudioSource);
+           StartCoroutine(DealConstantDamage());
+           UIManager.SetMaxHealth(playerController.GetMaxHealth());    
+            
         }
 
         void Update()
@@ -66,80 +82,158 @@ namespace Game.player
             isGrounded =Physics.CheckSphere(GroundCheck.position, groundDistance, GroundMask);
             if(isGrounded && velocity.y < 0)
             {
-                velocity.y = -2f;
+                velocity.y = jumbVariable;
             }
         }
         private void HandleInput()
         {
             horizontalInput = Input.GetAxis("Horizontal");
             verticalInput = Input.GetAxis("Vertical");
-            if(Input.GetButtonDown("Jump") && isGrounded)
+            if(Input.GetKeyDown(KeyCode.Escape))
             {
+                if (Time.timeScale != 0)
+                {
+                    UIManager.Pause();
+                }
+                else
+                {
+                    UIManager.Resume();
+                }
+                
+            }
+            if(jumpButton= Input.GetButtonDown("Jump") && isGrounded)
+            {
+                SoundManager.Instance.PlayerSoundPlay(Sounds.jump);
                 Jump();
+                
             }
             if( Input.GetButton("Jump") && !isGrounded && velocity.y<0)
             {
                 Hover();
             }
-            if(Input.GetKey(KeyCode.LeftShift) && isGrounded)
+            
+            else if (Input.GetKeyUp(KeyCode.LeftShift) ||!isGrounded)
             {
-                Run();
-            }
-            else {
+                isRunning= false;
+            }        
+            if((horizontalInput!=0 || verticalInput!=0 ) ) {
 
-                move = transform.right * horizontalInput + transform.forward * verticalInput;
+               
+                if (Input.GetKey(KeyCode.LeftShift))
+                {
+                    Run();
+                }
+                else
+                {
+                    move = transform.right * horizontalInput + transform.forward * verticalInput;
+                }
             }
+
+            if (isRunning && !isSoundPlay)
+            {
+                SoundManager.Instance.PlayerSoundLoopPlay(Sounds.walk);
+                isSoundPlay = true;
+                Debug.Log("ismoving");
+            }if(!isRunning && isSoundPlay)
+            {
+                SoundManager.Instance.PlayerSoundStop(Sounds.walk);
+                isSoundPlay = false;
+            }
+
         }
-
         private void Run()
         {
-            move = transform.right * horizontalInput + transform.forward * verticalInput *Runspeed;
-
+            runSpeed = playerController.GetRunSpeed();
+            move = transform.right * horizontalInput + transform.forward * verticalInput *runSpeed;
+            if(!isRunning && isGrounded)
+            {
+                Debug.Log("Running");
+                isRunning = true;
+            }
         }
-
         private void Hover()
         {
-
             velocity.y += gravity * Time.deltaTime * hoverPower;
         }
-
         private void Jump()
         {
-            velocity.y = Mathf.Sqrt(jumpHeignt * -2 * gravity);
+            velocity.y = Mathf.Sqrt(jumpHeignt * jumbVariable * gravity);
         }
-
         private void Movement()
         {
-            
-            characterController.Move(move * playerController.GetSpeed() *Time.deltaTime);
-
-            if (velocity.y > -10f)
+            speed = playerController.GetSpeed();
+            characterController.Move(move * speed * Time.deltaTime);
+            if (velocity.y > minYVelocity)
             {
                 velocity.y += gravity * Time.deltaTime;
             }
-            
-
             characterController.Move(velocity *Time.deltaTime);
         }
 
         public void Death()
         {
-            UIService.Instance.GameOver();
-        }
-        private void CollectStars()
-        {
-
+            UIManager.GameOver();
         }
 
         public void Heal()
         {
             playerController.Heal();
+            Debug.Log("Healing");
             ShowHealth();
         }
         public void ShowHealth()
         {
             int health= playerController.GetHealth();
-            UIService.Instance.HealthSet(health);
+            UIManager.HealthSet(health);
+        }
+        private void TakeDamage()
+        {
+           int health= playerController.TakeDamage();
+           UIManager.HealthSet(health);
+        }
+        public void TakeDamage(int damage)
+        {
+            int health = playerController.TakeDamage(damage);
+            UIManager.HealthSet(health);
+        }
+        public IEnumerator DealConstantDamage()
+        {
+            TakeDamage();
+            yield return new WaitForSeconds(HealthDecreaseRate);
+            if (playerController.GetHealth() > 0)
+            {
+                StartCoroutine(DealConstantDamage());
+            }
+        }
+        private void checkAchevement()
+        {
+            int health=playerController.GetHealth();
+            int length = GameConstants.Achevemento2levels.Length;
+            for (int i = 0; i < length; i++)
+            {
+                if (health >= GameConstants.Achevemento2levels[i])
+                {
+                    AchevementsUnlock?.Invoke(length - i);
+                    break; 
+                }
+            }
+            
+        }
+
+        public void SetUIManager(UiManger _uiManger)
+        {
+            UIManager = _uiManger;
+        }
+
+        public void gameWon()
+        {
+            checkAchevement();
+            UIManager.gameWonMenu();
+        }
+
+        public void Died()
+        {
+            UIManager.GameOver();
         }
     }
 }

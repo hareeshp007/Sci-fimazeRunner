@@ -1,58 +1,88 @@
-using Game.UI;
+
+
 using System;
-using System.Numerics;
 
 namespace Game.player
 {
     public class PlayerController
     {
-        private PlayerModel _Model;
-        private PlayerView _View;
+        private PlayerModel model;
+        private PlayerView view;
 
-        private int speed;
         public PlayerController(PlayerView playerView, PlayerModel playerModel,PlayerSO playerSO)
         {
-            _Model = playerModel;
-            _View = playerView;
-            _Model.SetValues(playerSO);
-            _Model.SetPlayerController(this);
-            _View.SetPlayerController(this);
-            speed = _Model.speed;
+            model = playerModel;
+            view = playerView;
+            model.SetValues(playerSO);
+            model.SetPlayerController(this);
+            view.SetPlayerController(this);
         }
 
-        public void TakeDamage(int damage)
+        public int TakeDamage()
         {
-            int health = _Model.health;
+            int damage=model.DamageValue;
+            int health = model.health;
             if (health - damage > 0)
             {
                 health -= damage;
-                UIService.Instance.HealthSet(health);
+                model.SetHealth(health);
+                return health;
+                
             }
             else
             {
-                Death();
+                view.Death();
+                return 0;
             }
         }
-        public void Death()
+        public int TakeDamage(int damage)
         {
-            _View.Death();
+            int health = model.health;
+            if (health - damage > 0)
+            {
+                health -= damage;
+                model.SetHealth(health);
+                return health;
+            }
+            else
+            {
+                view.Death();
+                return 0;
+            }
         }
         public int GetHealth()
         {
-            return _Model.health;
+            return model.health;
+        }
+        public int GetMaxHealth()
+        {
+            return model.Maxhealth;
         }
         public int GetSpeed()
         {
-            return _Model.speed;
+            return model.Speed;
         }
 
-        internal void Heal()
+        public void Heal()
         {
+            
             int health=GetHealth();
-            if( health< _Model.Maxhealth)
+            int healValue = model.HealValue;
+            int maxHealth =model.Maxhealth;
+            if( health< maxHealth)
             {
-                health+=_Model.HealValue;
+                health += (healValue);
+                
+            }if(health> maxHealth)
+            {
+                health= maxHealth;
             }
+            model.SetHealth(health);
+        }
+
+        public float GetRunSpeed()
+        {
+            return model.RunSpeed;
         }
     }
 }

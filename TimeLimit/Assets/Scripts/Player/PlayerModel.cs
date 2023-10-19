@@ -1,4 +1,3 @@
-using System;
 
 namespace Game.player
 {
@@ -8,19 +7,13 @@ namespace Game.player
 
         public int health { get; private set; }
         public int Maxhealth { get; private set; }
-        public int speed { get; private set; }
-        public int Runspeed { get; private set; }
+        public int Speed { get; private set; }
+        public int RunSpeed { get; private set; }
         public int HealValue { get; private set; }
         public float JumpHeight { get; private set; }
         public float JumpHoverValue { get; private set; }
-        private float RotationSpeed { get; set; }
+        public int DamageValue { get; private set; }
 
-        public int KeysNeeded { get; set; }
-
-        public PlayerModel()
-        {
-
-        }
         public void SetPlayerController(PlayerController Controller)
         {
             this.playerController = Controller;
@@ -30,21 +23,22 @@ namespace Game.player
             health = _health;
             return health;
         }
-        public int SetSpeed(int _speed)
+        public int SetSpeed(int _Speed)
         {
-            speed = _speed;
-            return speed;
+            Speed = _Speed;
+            return Speed;
         }
 
         public void SetValues(PlayerSO playerSO)
         {
             Maxhealth = playerSO.maxHealth;
             health = Maxhealth;
-            speed = playerSO.speed;
-            Runspeed = playerSO.RunSpeed;
+            Speed = playerSO.Speed;
+            RunSpeed = playerSO.RunSpeed;
             JumpHeight = playerSO.jumpHeight;
             JumpHoverValue = playerSO.JumpHoveringValue;
             HealValue = playerSO.HealValue;
+            DamageValue = playerSO.DamageValue;
         }
     }
 }

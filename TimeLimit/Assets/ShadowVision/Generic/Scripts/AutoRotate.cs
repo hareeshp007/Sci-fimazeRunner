@@ -3,7 +3,7 @@ using System.Collections;
 
 namespace ShadowVision {
 	public class AutoRotate : MonoBehaviour {
-		public float speedMod = 1;
+		public float SpeedMod = 1;
 		public Vector3 vel;
 		public Vector3 randMax;
 		public Vector3 randMin;
@@ -18,7 +18,7 @@ namespace ShadowVision {
 
 		// Update is called once per frame
 		void LateUpdate() {
-			transform.Rotate(vel * speedMod * Time.deltaTime * 10, space);
+			transform.Rotate(vel * SpeedMod * Time.deltaTime * 10, space);
 		}
 	}
 }

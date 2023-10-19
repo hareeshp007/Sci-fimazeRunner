@@ -1,6 +1,5 @@
-using Assets.Scripts.Essentials;
+
 using Game.player;
-using Game.UI;
 using UnityEngine;
 
 namespace Game.Others
@@ -11,7 +10,8 @@ namespace Game.Others
         {
             if (other.GetComponent<PlayerView>()!=null)
             {
-                UIService.Instance.GameWon();
+                PlayerView player =other.GetComponent<PlayerView>();
+                player.gameWon();
             }
         }
         
