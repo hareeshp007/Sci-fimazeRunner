@@ -15,7 +15,7 @@ Heal area
 Damage Area
 Portal
 
-#Images
+# Images
 
 ![MainMenu](https://github.com/hareeshp007/Sci-fimazeRunner/assets/46471092/0a97c3c3-9b95-4828-a322-417300328ea0)
 ![InGame](https://github.com/hareeshp007/Sci-fimazeRunner/assets/46471092/3161c1a3-8cfb-42b0-8ece-74a81540a845)
