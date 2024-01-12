@@ -65,7 +65,7 @@ namespace Game.player
         {
            characterController = GetComponent<CharacterController>();
            playerAudioSource = GetComponent<AudioSource>();
-           SoundManager.Instance.SetPlayerSound(playerAudioSource);
+            GameService.Instance.SoundManager.SetPlayerSound(playerAudioSource);
            StartCoroutine(DealConstantDamage());
            UIManager.SetMaxHealth(playerController.GetMaxHealth());    
             
@@ -103,7 +103,7 @@ namespace Game.player
             }
             if(jumpButton= Input.GetButtonDown("Jump") && isGrounded)
             {
-                SoundManager.Instance.PlayerSoundPlay(Sounds.jump);
+                GameService.Instance.SoundManager.PlayerSoundPlay(Sounds.jump);
                 Jump();
                 
             }
@@ -131,12 +131,12 @@ namespace Game.player
 
             if (isRunning && !isSoundPlay)
             {
-                SoundManager.Instance.PlayerSoundLoopPlay(Sounds.walk);
+                GameService.Instance.SoundManager.PlayerSoundLoopPlay(Sounds.walk);
                 isSoundPlay = true;
                 Debug.Log("ismoving");
             }if(!isRunning && isSoundPlay)
             {
-                SoundManager.Instance.PlayerSoundStop(Sounds.walk);
+                GameService.Instance.SoundManager.PlayerSoundStop(Sounds.walk);
                 isSoundPlay = false;
             }
 

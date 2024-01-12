@@ -4,12 +4,13 @@ using UnityEngine.SceneManagement;
 
 namespace Game.UI
 {
-    public class LevelManeger : MonoSingletonGeneric<LevelManeger>
+    public class LevelManeger
     {
-        public String[] Levels;
-        
-        private void Start()
+        private String[] Levels;
+
+        public LevelManeger(string[] Levels)
         {
+            this.Levels = Levels;
             if (GetLevelStatus(Levels[0]) == LevelStatus.locked)
             {
                 SetLevelStatus(Levels[0], LevelStatus.unlocked);

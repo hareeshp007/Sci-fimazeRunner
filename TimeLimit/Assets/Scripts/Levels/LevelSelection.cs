@@ -20,21 +20,21 @@ namespace Game.UI
         private void LevelSelect()
         {
 
-            LevelStatus levelStatus = LevelManeger.Instance.GetLevelStatus(LevelName);
+            LevelStatus levelStatus = GameService.Instance.LevelManeger.GetLevelStatus(LevelName);
             switch (levelStatus)
             {
                 case LevelStatus.locked:
                     Debug.Log(Levelnum + " This Level is Locked:");
                     break;
                 case LevelStatus.unlocked:
-                    SoundManager.Instance.Play(Sounds.ButtonClick);
+                    GameService.Instance.SoundManager.Play(Sounds.ButtonClick);
                     Debug.Log(Levelnum + " This Level is Unlocked:");
-                    LevelManeger.Instance.LoadAnyLevel(Levelnum);
+                    GameService.Instance.LevelManeger.LoadAnyLevel(Levelnum);
                     break;
                 case LevelStatus.completed:
-                    SoundManager.Instance.Play(Sounds.ButtonClick);
+                    GameService.Instance.SoundManager.Play(Sounds.ButtonClick);
                     Debug.Log(Levelnum + " This Level is Completed:");
-                    LevelManeger.Instance.LoadAnyLevel(Levelnum);
+                    GameService.Instance.LevelManeger.LoadAnyLevel(Levelnum);
                     break;
             }
 

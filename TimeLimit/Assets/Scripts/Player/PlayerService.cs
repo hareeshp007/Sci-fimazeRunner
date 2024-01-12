@@ -1,19 +1,20 @@
 using Game.player;
 using UnityEngine;
 
-public class PlayerService : MonoSingletonGeneric<PlayerService>
+public class PlayerService 
 {
-    public Transform StartPos;
-    public PlayerSO PlayerSO;
-    [SerializeField]
+    private Transform StartPos;
+    private PlayerSO PlayerSO;
     private UiManger uiManger;
-    [SerializeField]
     private PlayerController playerController;
-    [SerializeField]
     private PlayerView playerView;
-    [SerializeField]
     private PlayerModel playerModel;
 
+    public PlayerService( Transform StartPos,PlayerSO PlayerSO)
+    {
+        this.StartPos = StartPos;
+        this.PlayerSO = PlayerSO;
+    }
     private void CreatePlayer()
     {
         
