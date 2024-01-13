@@ -31,7 +31,7 @@ public class MainMenu : MonoBehaviour
     }
     public void LevelReset()
     {
-        LevelManeger.Instance.LevelReset();
+        GameService.Instance.LevelManeger.LevelReset();
     }
     public void Exit()
     {

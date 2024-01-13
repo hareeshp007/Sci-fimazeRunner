@@ -4,26 +4,23 @@ using UnityEngine.UI;
 
 namespace Game
 {
-    public class SoundManager : MonoSingletonGeneric<SoundManager>
+    public class SoundManager 
     {
-        public Slider VolumeSlider;
-        public AudioSource SoundEffect;
-        public AudioSource SoundMusic;
-        public AudioSource PlayerSound;
+        private AudioSource SoundEffect;
+        private AudioSource SoundMusic;
+        private AudioSource PlayerSound;
         [Range(0f, 1f)] public float userVolume;
-        public float Volume = 1f;
+        private float Volume = 1f;
 
-        public SoundType[] Soundtypes;
+        private SoundType[] Soundtypes;
 
-        private void Start()
+        public SoundManager(AudioSource SoundEffect,AudioSource SoundMusic, SoundType[] Soundtypes,float volume)
         {
-            SetVolume(userVolume);
+            this.SoundEffect = SoundEffect;
+            this.SoundMusic = SoundMusic;
+            this.Soundtypes = Soundtypes;
+            SetVolume(volume);
             PlayMusic(Sounds.music);
-        }
-        private void SetVolume()
-        {
-            SoundEffect.volume = VolumeSlider.value;
-            SoundMusic.volume = VolumeSlider.value;
         }
         public void SetVolume(float volume)
         {
@@ -47,8 +44,6 @@ namespace Game
         }
         public void Play(Sounds sound)
         {
-
-
             AudioClip clip = getSoundClip(sound);
             if (clip != null)
             {

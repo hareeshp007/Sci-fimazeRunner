@@ -36,7 +36,7 @@ public class UiManger : MonoBehaviour
 
     private void Awake()
     {
-        PlayerService.Instance.SetUIManager(this);
+        GameService.Instance.PlayerService.SetUIManager(this);
     }
     private void Start()
     {
@@ -104,7 +104,7 @@ public class UiManger : MonoBehaviour
     {
         Time.timeScale = 0;
         Cursor.lockState = CursorLockMode.None;
-        LevelManeger.Instance.MarkCurrentLevelCompleted();
+        GameService.Instance.LevelManeger.MarkCurrentLevelCompleted();
         gameWon.SetActive(true);
         inGame.SetActive(false);
     }
@@ -119,7 +119,7 @@ public class UiManger : MonoBehaviour
     }
     public void NextLevel()
     {
-        LevelManeger.Instance.LoadNextLevel();
+        GameService.Instance.LevelManeger.LoadNextLevel();
     }
 
     public void HealthSet(int Health)
